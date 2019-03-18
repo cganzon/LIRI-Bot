@@ -8,6 +8,7 @@ var axios = require("axios");
 
 // Grabbing user input
 var command = process.argv[2];
+
 // Storing all arguments in a variable
 var arguments = process.argv;
 
@@ -24,7 +25,7 @@ for (var i = 3; i < arguments.length; i++) {
 
     }
 };
-console.log(userInput);
+// console.log(userInput);
 
 // ============================================== //
 
@@ -37,20 +38,33 @@ if (command === "spotify-this-song") {
 };
 
 if (command === "movie-this") {
-    axios
-        .get("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=trilogy")
-        .then(function (response) {
-            // console.log(response.data);
-            console.log("Movie: " + response.data.Title);
-            console.log("Release Year: " + response.data.Year);
-            console.log(response.data.Ratings[0].Source + " Score: " + response.data.Ratings[0].Value);
-            console.log(response.data.Ratings[1].Source + " Score: " + response.data.Ratings[1].Value);
-            console.log("Country produced: " + response.data.Country);
-            console.log("Language(s): " + response.data.Language);
-            console.log("Plot: " + response.data.Plot);
-            console.log("Actors: " + response.data.Actors);
-        }
-    );
+    function moveData(movie) {
+        // console.log(movie.data);
+        console.log("Movie: " + movie.data.Title);
+        console.log("Release Year: " + movie.data.Year);
+        console.log(movie.data.Ratings[0].Source + " Score: " + movie.data.Ratings[0].Value);
+        console.log(movie.data.Ratings[1].Source + " Score: " + movie.data.Ratings[1].Value);
+        console.log("Country produced: " + movie.data.Country);
+        console.log("Language(s): " + movie.data.Language);
+        console.log("Plot: " + movie.data.Plot);
+        console.log("Actors: " + movie.data.Actors);
+    };
+
+    // If user input is empty
+    if (userInput === "") {
+        axios
+            .get("http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&apikey=trilogy")
+            .then(function (response) {
+                moveData(response);
+            });
+    } else {
+        axios
+            .get("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=trilogy")
+            .then(function (response) {
+                moveData(response);
+            });
+    };
+
 };
 
 if (command === "do-what-it-says") {
