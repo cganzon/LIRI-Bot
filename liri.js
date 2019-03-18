@@ -5,6 +5,7 @@ require("dotenv").config();
 var keys = require("./keys.js");
 
 // Grabbing packages
+var fs = require("fs");
 var axios = require("axios");
 var moment = require("moment");
 var inquirer = require("inquirer");
@@ -24,7 +25,7 @@ inquirer
         },
         {
             type: "input",
-            message: "Enter an artist, song, or movie (press enter if you want a random output)",
+            message: "Enter an artist, song, or movie (press Enter otherwise)",
             name: "userInput"
         }
     ])
@@ -110,7 +111,16 @@ inquirer
         // ================================================ //
 
         if (response.command === "do-what-it-says") {
+            fs.readFile("random.txt", "utf8", function(error, data) {
 
+                // If the code experiences any errors it will log the error to the console.
+                if (error) {
+                  return console.log(error);
+                }
+              
+                // We will then print the contents of data
+                console.log(data);           
+              });
         };
 
     });
