@@ -20,17 +20,8 @@ var command = process.argv[2];
 var arguments = process.argv;
 
 // Empty variable to hold user's input after command argument for searching API's
-var userInput = "";
+var userInput = process.argv.slice(3).join("+");
 
-for (var i = 3; i < arguments.length; i++) {
-
-    if (i > 3 && i < arguments.length) {
-        userInput = userInput + "+" + arguments[i];
-    }
-    else {
-        userInput += arguments[i];
-    };
-};
 // console.log(userInput);
 
 // ================================================ //
@@ -77,7 +68,7 @@ if (command === "spotify-this-song") {
 if (command === "movie-this") {
     // Function display necessary movie data
     function moveData(movie) {
-        console.log(movie.data);
+        // console.log(movie.data);
         console.log("Movie: " + movie.data.Title);
         console.log("Release Year: " + movie.data.Year);
         console.log(movie.data.Ratings[0].Source + " Score: " + movie.data.Ratings[0].Value);
