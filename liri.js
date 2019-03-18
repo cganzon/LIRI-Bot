@@ -3,8 +3,15 @@ require("dotenv").config();
 
 // Importing the keys.js file
 var keys = require("./keys.js");
-// Grabbing axios package
+
+// Grabbing packages
 var axios = require("axios");
+var Spotify = require("node-spotify-api");
+var spotify = new Spotify(keys.spotify);
+// console.log(spotify.credentials);
+console.log("ID: " + spotify.credentials.id);
+console.log("Secret: " + spotify.credentials.secret);
+var moment = require("moment");
 
 // Grabbing user input
 var command = process.argv[2];
@@ -22,8 +29,7 @@ for (var i = 3; i < arguments.length; i++) {
     }
     else {
         userInput += arguments[i];
-
-    }
+    };
 };
 // console.log(userInput);
 
@@ -34,12 +40,40 @@ if (command === "concert-this") {
 };
 
 if (command === "spotify-this-song") {
+    // Function to display song data
+    function songData(song) {
+        // console.log(song.tracks.items[0]);
+        console.log("Song name: " + song.tracks.items[0].name);
+        console.log("Artist(s): " + song.tracks.items[0].album.artists[0].name);
+        console.log("Album: " + song.tracks.items[0].album.name);
+        console.log("Preview Link: " + song.tracks.items[0].external_urls.spotify);
+    };
 
+    if (userInput === "") {
+        spotify
+            .search({ type: 'track', query: 'The+Sign+artist:Ace+of+Base' }, function (err, response) {
+                if (err) {
+                    return console.log('Error occurred: ' + err);
+                };
+
+                songData(response);
+            });
+    } else {
+        spotify
+            .search({ type: 'track', query: userInput }, function (err, response) {
+                if (err) {
+                    return console.log('Error occurred: ' + err);
+                };
+
+                songData(response);
+            });
+    };
 };
 
 if (command === "movie-this") {
+    // Function display necessary movie data
     function moveData(movie) {
-        // console.log(movie.data);
+        console.log(movie.data);
         console.log("Movie: " + movie.data.Title);
         console.log("Release Year: " + movie.data.Year);
         console.log(movie.data.Ratings[0].Source + " Score: " + movie.data.Ratings[0].Value);
