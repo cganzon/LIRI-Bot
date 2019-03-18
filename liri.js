@@ -9,8 +9,8 @@ var axios = require("axios");
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 // console.log(spotify.credentials);
-console.log("ID: " + spotify.credentials.id);
-console.log("Secret: " + spotify.credentials.secret);
+// console.log("ID: " + spotify.credentials.id);
+// console.log("Secret: " + spotify.credentials.secret);
 var moment = require("moment");
 
 // Grabbing user input
@@ -19,7 +19,7 @@ var command = process.argv[2];
 // Storing all arguments in a variable
 var arguments = process.argv;
 
-// Empty variable to hold user's input for searching API's
+// Empty variable to hold user's input after command argument for searching API's
 var userInput = "";
 
 for (var i = 3; i < arguments.length; i++) {
@@ -33,11 +33,13 @@ for (var i = 3; i < arguments.length; i++) {
 };
 // console.log(userInput);
 
-// ============================================== //
+// ================================================ //
 
 if (command === "concert-this") {
 
 };
+
+// ================================================ //
 
 if (command === "spotify-this-song") {
     // Function to display song data
@@ -51,24 +53,26 @@ if (command === "spotify-this-song") {
 
     if (userInput === "") {
         spotify
-            .search({ type: 'track', query: 'The+Sign+artist:Ace+of+Base' }, function (err, response) {
-                if (err) {
-                    return console.log('Error occurred: ' + err);
+            .search({ type: 'track', query: 'The+Sign+artist:Ace+of+Base' }, function (error, response) {
+                if (error) {
+                    return console.log('Error occurred: ' + error);
                 };
 
                 songData(response);
             });
     } else {
         spotify
-            .search({ type: 'track', query: userInput }, function (err, response) {
-                if (err) {
-                    return console.log('Error occurred: ' + err);
+            .search({ type: 'track', query: userInput }, function (error, response) {
+                if (error) {
+                    return console.log('Error occurred: ' + error);
                 };
 
                 songData(response);
             });
     };
 };
+
+// ================================================ //
 
 if (command === "movie-this") {
     // Function display necessary movie data
@@ -100,6 +104,8 @@ if (command === "movie-this") {
     };
 
 };
+
+// ================================================ //
 
 if (command === "do-what-it-says") {
 
