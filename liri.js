@@ -27,7 +27,14 @@ var userInput = process.argv.slice(3).join("+");
 // ================================================ //
 
 if (command === "concert-this") {
-
+    axios
+    .get("https://rest.bandsintown.com/artists/" + userInput + "/events?app_id=codingbootcamp")
+    .then(function(response) {
+        // console.log(response.data[0]);
+        console.log("Venue: " + response.data[0].venue.name);
+        console.log("Location: " + response.data[0].venue.city + ", " + response.data[0].venue.region + " " + response.data[0].venue.country) ;
+        console.log("Date: " + response.data[0].datetime);
+    });
 };
 
 // ================================================ //
