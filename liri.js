@@ -15,6 +15,40 @@ var spotify = new Spotify(keys.spotify);
 // console.log("ID: " + spotify.credentials.id);
 // console.log("Secret: " + spotify.credentials.secret);
 
+// ================================================ //
+
+// Function to display venue data
+function venueData(venue) {
+    // console.log(venue.data[0]);
+    console.log("Venue: " + venue.data[0].venue.name);
+    console.log("Location: " + venue.data[0].venue.city + ", " + venue.data[0].venue.region + " " + venue.data[0].venue.country);
+    console.log("Date: " + venue.data[0].datetime);
+};
+
+// Function to display song data
+function songData(song) {
+    // console.log(song.tracks.items[0]);
+    console.log("Song name: " + song.tracks.items[0].name);
+    console.log("Artist(s): " + song.tracks.items[0].album.artists[0].name);
+    console.log("Album: " + song.tracks.items[0].album.name);
+    console.log("Preview Link: " + song.tracks.items[0].external_urls.spotify);
+};
+
+// Function display necessary movie data
+function movieData(movie) {
+    // console.log(movie.data);
+    console.log("Movie: " + movie.data.Title);
+    console.log("Release Year: " + movie.data.Year);
+    console.log(movie.data.Ratings[0].Source + " Score: " + movie.data.Ratings[0].Value);
+    console.log(movie.data.Ratings[1].Source + " Score: " + movie.data.Ratings[1].Value);
+    console.log("Country produced: " + movie.data.Country);
+    console.log("Language(s): " + movie.data.Language);
+    console.log("Plot: " + movie.data.Plot);
+    console.log("Actors: " + movie.data.Actors);
+};
+
+// ================================================ //
+
 // Grabbing user's input with inquirer package
 inquirer
     .prompt([
@@ -35,25 +69,13 @@ inquirer
             axios
                 .get("https://rest.bandsintown.com/artists/" + response.userInput + "/events?app_id=codingbootcamp")
                 .then(function (response) {
-                    // console.log(response.data[0]);
-                    console.log("Venue: " + response.data[0].venue.name);
-                    console.log("Location: " + response.data[0].venue.city + ", " + response.data[0].venue.region + " " + response.data[0].venue.country);
-                    console.log("Date: " + response.data[0].datetime);
+                    venueData(response);
                 });
         };
 
         // ================================================ //
 
         if (response.command === "spotify-this-song") {
-            // Function to display song data
-            function songData(song) {
-                // console.log(song.tracks.items[0]);
-                console.log("Song name: " + song.tracks.items[0].name);
-                console.log("Artist(s): " + song.tracks.items[0].album.artists[0].name);
-                console.log("Album: " + song.tracks.items[0].album.name);
-                console.log("Preview Link: " + song.tracks.items[0].external_urls.spotify);
-            };
-
             if (response.userInput === "") {
                 spotify
                     .search({ type: 'track', query: 'The+Sign+artist:Ace+of+Base' }, function (error, response) {
@@ -78,31 +100,18 @@ inquirer
         // ================================================ //
 
         if (response.command === "movie-this") {
-            // Function display necessary movie data
-            function moveData(movie) {
-                // console.log(movie.data);
-                console.log("Movie: " + movie.data.Title);
-                console.log("Release Year: " + movie.data.Year);
-                console.log(movie.data.Ratings[0].Source + " Score: " + movie.data.Ratings[0].Value);
-                console.log(movie.data.Ratings[1].Source + " Score: " + movie.data.Ratings[1].Value);
-                console.log("Country produced: " + movie.data.Country);
-                console.log("Language(s): " + movie.data.Language);
-                console.log("Plot: " + movie.data.Plot);
-                console.log("Actors: " + movie.data.Actors);
-            };
-
             // If user input is empty
             if (response.userInput === "") {
                 axios
                     .get("http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&apikey=trilogy")
                     .then(function (response) {
-                        moveData(response);
+                        movieData(response);
                     });
             } else {
                 axios
                     .get("http://www.omdbapi.com/?t=" + response.userInput + "&y=&plot=short&apikey=trilogy")
                     .then(function (response) {
-                        moveData(response);
+                        movieData(response);
                     });
             };
 
@@ -111,16 +120,48 @@ inquirer
         // ================================================ //
 
         if (response.command === "do-what-it-says") {
-            fs.readFile("random.txt", "utf8", function(error, data) {
+            fs.readFile("random.txt", "utf8", function (error, data) {
 
                 // If the code experiences any errors it will log the error to the console.
                 if (error) {
-                  return console.log(error);
+                    return console.log(error);
                 }
-              
-                // We will then print the contents of data
-                console.log(data);           
-              });
+
+                // console.log(data);
+                var randomArray = data.split(",");
+                console.log(randomArray);
+                var randomCommand = randomArray[0];
+                var randomInput = randomArray[1];
+
+                if (randomCommand === "spotify-this-song") {
+                    spotify
+                        .search({ type: 'track', query: randomInput }, function (error, response) {
+                            if (error) {
+                                return console.log('Error occurred: ' + error);
+                            };
+                            console.log("Here's a random song!")
+                            songData(response);
+                        });
+                };
+
+                if (randomCommand === "concert-this") {
+                    axios
+                        .get("https://rest.bandsintown.com/artists/" + randomInput + "/events?app_id=codingbootcamp")
+                        .then(function (response) {
+                            console.log("Here's the next concert for a random artist!")
+                            venueData(response);
+                        });
+                };
+
+                if (randomCommand === "movie-this") {
+                    axios
+                        .get("http://www.omdbapi.com/?t=" + randomInput + "&y=&plot=short&apikey=trilogy")
+                        .then(function (response) {
+                            console.log("Here's a random movie!")
+                            movieData(response);
+                        });
+                }
+            });
         };
 
     });
