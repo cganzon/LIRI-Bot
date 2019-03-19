@@ -22,7 +22,10 @@ function venueData(venue) {
     // console.log(venue.data[0]);
     console.log("Venue: " + venue.data[0].venue.name);
     console.log("Location: " + venue.data[0].venue.city + ", " + venue.data[0].venue.region + " " + venue.data[0].venue.country);
-    console.log("Date: " + venue.data[0].datetime);
+    var dateTime = venue.data[0].datetime;
+    var formatted = moment(dateTime).format("MM/DD/YY, hh:mm a");
+    // console.log("Date: " + venue.data[0].datetime);
+    console.log("Date and Time: " + formatted);
 };
 
 // Function to display song data
