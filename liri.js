@@ -2,44 +2,51 @@
 require("dotenv").config();
 
 // Importing the keys.js file
-var keys = require("./keys.js");
+const keys = require("./keys.js");
 
 // Grabbing packages
-var fs = require("fs");
-var axios = require("axios");
-var moment = require("moment");
-var inquirer = require("inquirer");
-var Spotify = require("node-spotify-api");
+const fs = require("fs");
+const axios = require("axios");
+const moment = require("moment");
+const inquirer = require("inquirer");
+const Spotify = require("node-spotify-api");
+var spotify = new Spotify(keys.spotify);
 // console.log(spotify.credentials);
 // console.log("ID: " + spotify.credentials.id);
 // console.log("Secret: " + spotify.credentials.secret);
-var spotify = new Spotify(keys.spotify);
 
 // ================================================ //
 
 // Function to display venue data
 function venueData(venue) {
     // console.log(venue.data[0]);
+    console.log("==============================");
     console.log("Venue: " + venue.data[0].venue.name);
     console.log("Location: " + venue.data[0].venue.city + ", " + venue.data[0].venue.region + " " + venue.data[0].venue.country);
     var dateTime = venue.data[0].datetime;
     var formatted = moment(dateTime).format("MM/DD/YY, hh:mm a");
     // console.log("Date: " + venue.data[0].datetime);
     console.log("Date and Time: " + formatted);
+    console.log("==============================");
+
 };
 
 // Function to display song data
 function songData(song) {
     // console.log(song.tracks.items[0]);
+    console.log("==============================");
     console.log("Song name: " + song.tracks.items[0].name);
     console.log("Artist(s): " + song.tracks.items[0].album.artists[0].name);
     console.log("Album: " + song.tracks.items[0].album.name);
     console.log("Preview Link: " + song.tracks.items[0].external_urls.spotify);
+    console.log("==============================");
+
 };
 
 // Function display necessary movie data
 function movieData(movie) {
     // console.log(movie.data);
+    console.log("==============================");
     console.log("Movie: " + movie.data.Title);
     console.log("Release Year: " + movie.data.Year);
     console.log(movie.data.Ratings[0].Source + " Score: " + movie.data.Ratings[0].Value);
@@ -48,6 +55,8 @@ function movieData(movie) {
     console.log("Language(s): " + movie.data.Language);
     console.log("Plot: " + movie.data.Plot);
     console.log("Actors: " + movie.data.Actors);
+    console.log("==============================");
+
 };
 
 // ================================================ //
@@ -79,6 +88,7 @@ inquirer
         // ================================================ //
 
         if (response.command === "spotify-this-song") {
+            // If user input is empty
             if (response.userInput === "") {
                 spotify
                     .search({ type: 'track', query: 'The+Sign+artist:Ace+of+Base' }, function (error, response) {
@@ -132,7 +142,7 @@ inquirer
 
                 // console.log(data);
                 var randomArray = data.split(",");
-                console.log(randomArray);
+                // console.log(randomArray);
                 var randomCommand = randomArray[0];
                 var randomInput = randomArray[1];
 
@@ -163,7 +173,7 @@ inquirer
                             console.log("Here's a random movie!")
                             movieData(response);
                         });
-                }
+                };
             });
         };
 
