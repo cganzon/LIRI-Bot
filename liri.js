@@ -2,14 +2,14 @@
 require("dotenv").config();
 
 // Importing the keys.js file
-var keys = require("./keys.js");
+const keys = require("./keys.js");
 
 // Grabbing packages
-var fs = require("fs");
-var axios = require("axios");
-var moment = require("moment");
-var inquirer = require("inquirer");
-var Spotify = require("node-spotify-api");
+const fs = require("fs");
+const axios = require("axios");
+const moment = require("moment");
+const inquirer = require("inquirer");
+const Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 // console.log(spotify.credentials);
 // console.log("ID: " + spotify.credentials.id);
@@ -79,6 +79,7 @@ inquirer
         // ================================================ //
 
         if (response.command === "spotify-this-song") {
+            // If user input is empty
             if (response.userInput === "") {
                 spotify
                     .search({ type: 'track', query: 'The+Sign+artist:Ace+of+Base' }, function (error, response) {
