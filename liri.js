@@ -10,10 +10,10 @@ var axios = require("axios");
 var moment = require("moment");
 var inquirer = require("inquirer");
 var Spotify = require("node-spotify-api");
-var spotify = new Spotify(keys.spotify);
 // console.log(spotify.credentials);
 // console.log("ID: " + spotify.credentials.id);
 // console.log("Secret: " + spotify.credentials.secret);
+var spotify = new Spotify(keys.spotify);
 
 // ================================================ //
 
