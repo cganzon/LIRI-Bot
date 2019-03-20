@@ -164,7 +164,7 @@ inquirer
                             console.log("Here's a random movie!")
                             movieData(response);
                         });
-                }
+                };
             });
         };
 
