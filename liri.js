@@ -18,7 +18,7 @@ var spotify = new Spotify(keys.spotify);
 // ================================================ //
 
 // Function to display venue data
-function venueData(venue) {
+const venueData = (venue) => {
     // console.log(venue.data[0]);
     console.log("==============================");
     console.log("Venue: " + venue.data[0].venue.name);
@@ -32,7 +32,7 @@ function venueData(venue) {
 };
 
 // Function to display song data
-function songData(song) {
+const songData = (song) => {
     // console.log(song.tracks.items[0]);
     console.log("==============================");
     console.log("Song name: " + song.tracks.items[0].name);
@@ -40,11 +40,10 @@ function songData(song) {
     console.log("Album: " + song.tracks.items[0].album.name);
     console.log("Preview Link: " + song.tracks.items[0].external_urls.spotify);
     console.log("==============================");
-
 };
 
 // Function display necessary movie data
-function movieData(movie) {
+const movieData = (movie) => {
     // console.log(movie.data);
     console.log("==============================");
     console.log("Movie: " + movie.data.Title);
@@ -56,7 +55,6 @@ function movieData(movie) {
     console.log("Plot: " + movie.data.Plot);
     console.log("Actors: " + movie.data.Actors);
     console.log("==============================");
-
 };
 
 // ================================================ //
