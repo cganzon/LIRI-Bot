@@ -21,6 +21,7 @@ var spotify = new Spotify(keys.spotify);
 const venueData = (venue) => {
     // console.log(venue.data[0]);
     console.log("==============================");
+    console.log("Artist: " + venue.data[0].lineup[0]);
     console.log("Venue: " + venue.data[0].venue.name);
     console.log("Location: " + venue.data[0].venue.city + ", " + venue.data[0].venue.region + " " + venue.data[0].venue.country);
     var dateTime = venue.data[0].datetime;
